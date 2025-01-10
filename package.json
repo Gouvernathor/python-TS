@@ -1,6 +1,6 @@
 {
   "name": "@gouvernathor/python",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A library of various portings of Python's builtins and standard library.",
   "type": "module",
   "main": "python.js",
