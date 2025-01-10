@@ -4,8 +4,7 @@ export function fmean(values: ReadonlyArray<number>, weights?: ReadonlyArray<num
     if (weights === undefined) {
         return sum(values) / values.length;
     }
-    // return sum(values.map((v, i) => v * weights[i])) / sum(weights); // ?
-    throw new Error("Not implemented");
+    return sum(values.map((v, i) => v * weights[i])) / sum(weights);
 }
 
 export function median(values: ReadonlyArray<number>): number {
