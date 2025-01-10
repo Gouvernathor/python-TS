@@ -1,0 +1,45 @@
+{
+  "name": "@gouvernathor/python",
+  "version": "1.0.0",
+  "description": "A library of various portings of Python's builtins and standard library.",
+  "type": "module",
+  "main": "python.js",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./python.d.ts",
+        "default": "./python.js"
+      }
+    },
+    "./*": {
+      "import": {
+        "types": "./python/*.d.ts",
+        "default": "./python/*.js"
+      }
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Gouvernathor/python-ts.git"
+  },
+  "keywords": [
+    "python"
+  ],
+  "author": "Gouvernathor",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gouvernathor/python-ts/issues"
+  },
+  "homepage": "https://github.com/Gouvernathor/python-ts#readme",
+  "devDependencies": {
+    "typescript": "*",
+    "tsup": "^8.3.5"
+  }
+}
