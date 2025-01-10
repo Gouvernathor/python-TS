@@ -24,6 +24,6 @@ export function erf(x: number): number {
     return sign * (1 - (((((a5 * t + a4) * t) + a3) * t + a2) * t + a1) * t * Math.exp(-x * x));
 }
 
-export function hypot(...coordinates: number[]): number {
+export function hypot(...coordinates: ReadonlyArray<number>): number {
     return Math.sqrt(sum(coordinates.map(c => c ** 2)));
 }

@@ -1,7 +1,6 @@
 import { sum } from "../python";
 
-// not exported until implemented
-function fmean(values: number[], weights?: number[]): number {
+export function fmean(values: ReadonlyArray<number>, weights?: ReadonlyArray<number>): number {
     if (weights === undefined) {
         return sum(values) / values.length;
     }
@@ -9,7 +8,7 @@ function fmean(values: number[], weights?: number[]): number {
     throw new Error("Not implemented");
 }
 
-export function median(values: number[]): number {
+export function median(values: ReadonlyArray<number>): number {
     const sorted = values.slice().sort();
     const n = sorted.length;
     if (n % 2 === 0) {
