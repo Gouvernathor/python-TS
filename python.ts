@@ -24,7 +24,7 @@ export function* enumerate<T>(array: Iterable<T>, start = 0): Iterable<[number, 
     }
 }
 
-export function max<T>(array: Iterable<number>): number;
+export function max(array: Iterable<number>): number;
 export function max<T>(array: Iterable<T>, key: (n: T) => number): T;
 export function max(array: Iterable<any>, key?: (n: any) => number): any {
     if (!Array.isArray(array)) {
@@ -37,7 +37,7 @@ export function max(array: Iterable<any>, key?: (n: any) => number): any {
     }
 }
 
-export function min<T>(array: Iterable<number>): number;
+export function min(array: Iterable<number>): number;
 export function min<T>(array: Iterable<T>, key: (n: T) => number): T;
 export function min(array: Iterable<any>, key?: (n: any) => number): any {
     if (!Array.isArray(array)) {
