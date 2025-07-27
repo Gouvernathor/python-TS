@@ -7,7 +7,7 @@ export function divmod(a: number, b: number): [number, number] {
     return [Math.floor(a / b), a % b];
 }
 
-// TODO: implement as a class implementing ReadonlyArray<number>
+// Implementing a class subclassing ReadonlyArray<number> would require a costly Proxy
 export function range(end: number): ReadonlyArray<number>;
 export function range(start: number, end: number): ReadonlyArray<number>;
 export function range(start: number, end?: number): ReadonlyArray<number> {
