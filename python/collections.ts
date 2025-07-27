@@ -131,6 +131,65 @@ export class NumberCounter<T> extends BaseCounter<T, number> implements Counter<
     }
 }
 
+export class BigIntCounter<T> extends BaseCounter<T, bigint> implements Counter<T, bigint> {
+    // only to render the constructor private
+    private constructor(iterable: Iterable<[T, bigint]> = []) {
+        super(iterable);
+    }
+
+    static fromKeys<T>(keys: Iterable<T>, value = 1n): BigIntCounter<T> {
+        return new BigIntCounter<T>(Array.from(keys, key => [key, value] as [T, bigint]));
+    }
+
+    static fromEntries<T>(entries: Iterable<[T, bigint]>): BigIntCounter<T> {
+        return new BigIntCounter<T>(entries);
+    }
+
+    override get(key: T): bigint {
+        return super.get(key) || 0n;
+    }
+
+    get total(): bigint {
+        return sum(this.values(), 0n);
+    }
+
+    get pos(): BigIntCounter<T> {
+        const copy = new BigIntCounter<T>();
+        for (const [key, value] of this) {
+            if (value > 0n) {
+                copy.set(key, value);
+            }
+        }
+        return copy;
+    }
+
+    get neg(): BigIntCounter<T> {
+        const copy = new BigIntCounter<T>();
+        for (const [key, value] of this) {
+            if (value < 0n) {
+                copy.set(key, -value);
+            }
+        }
+        return copy;
+    }
+
+    increment(key: T, value = 1n): void {
+        this.set(key, this.get(key) + value);
+    }
+
+    add(iterable: Iterable<T>): void {
+        for (const item of iterable) {
+            this.increment(item, 1n);
+        }
+    }
+
+    subtract(iterable: Iterable<T>): void {
+        for (const item of iterable) {
+            this.increment(item, -1n);
+        }
+    }
+}
+
 export class DefaultMap<K, V> extends Map<K, V> {
     constructor(public factory: (key: K) => V, iterable?: Iterable<[K, V]>) {
         super(iterable);
