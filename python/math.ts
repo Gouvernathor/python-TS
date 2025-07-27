@@ -1,4 +1,4 @@
-import { sum } from "../python";
+import { sum } from "../python.js";
 
 /**
  * This is the Gauss Error Function.

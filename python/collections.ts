@@ -1,4 +1,4 @@
-import { sum } from "../python";
+import { sum } from "../python.js";
 
 export interface ReadonlyCounter<T, out N extends number|bigint> extends ReadonlyMap<T, N> {
     /**

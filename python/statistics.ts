@@ -1,4 +1,4 @@
-import { sum } from "../python";
+import { sum } from "../python.js";
 
 export function fmean(values: readonly number[], weights?: readonly number[]): number {
     if (weights === undefined) {
