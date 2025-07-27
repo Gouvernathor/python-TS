@@ -1,13 +1,13 @@
 import { sum } from "../python";
 
-export function fmean(values: ReadonlyArray<number>, weights?: ReadonlyArray<number>): number {
+export function fmean(values: readonly number[], weights?: readonly number[]): number {
     if (weights === undefined) {
         return sum(values) / values.length;
     }
     return sum(values.map((v, i) => v * weights[i])) / sum(weights);
 }
 
-export function median(values: ReadonlyArray<number>): number {
+export function median(values: readonly number[]): number {
     const sorted = values.slice().sort();
     const n = sorted.length;
     if (n % 2 === 0) {
