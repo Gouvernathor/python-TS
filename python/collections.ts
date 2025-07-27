@@ -1,3 +1,5 @@
+import { sum } from "../python";
+
 export interface ReadonlyCounter<T, out N extends number|bigint> extends ReadonlyMap<T, N> {
     /**
      * Returns the count of the given key, or 0 if not present.
@@ -46,6 +48,84 @@ export interface Counter<T, N extends number|bigint> extends ReadonlyCounter<T, 
     subtract(iterable: Iterable<T>): void;
 }
 
+export class NumberCounter<T> extends Map<T, number> implements Counter<T, number> {
+    // only to render the constructor private
+    private constructor(iterable: Iterable<[T, number]> = []) {
+        super(iterable);
+    }
+
+    static fromKeys<T>(keys: Iterable<T>, value = 1): NumberCounter<T> {
+        return new NumberCounter<T>(Array.from(keys, key => [key, value] as [T, number]));
+    }
+
+    static fromEntries<T>(entries: Iterable<[T, number]>): NumberCounter<T> {
+        return new NumberCounter<T>(entries);
+    }
+
+    override get(key: T): number {
+        return super.get(key) || 0;
+    }
+
+    *elements(): Iterable<T> {
+        for (const [key, count] of this) {
+            for (let i = 0; i < count; i++) {
+                yield key;
+            }
+        }
+    }
+
+    get total(): number {
+        return sum(this.values());
+    }
+
+    get pos(): NumberCounter<T> {
+        const copy = new NumberCounter<T>();
+        for (const [key, value] of this) {
+            if (value > 0) {
+                copy.set(key, value);
+            }
+        }
+        return copy;
+    }
+
+    get neg(): NumberCounter<T> {
+        const copy = new NumberCounter<T>();
+        for (const [key, value] of this) {
+            if (value < 0) {
+                copy.set(key, -value);
+            }
+        }
+        return copy;
+    }
+
+    update(iterable: Iterable<[T, number]>): void {
+        for (const [item, count] of iterable) {
+            this.set(item, count);
+        }
+    }
+
+    increment(key: T, value = 1): void {
+        this.set(key, this.get(key) + value);
+    }
+
+    updateBy(iterable: Iterable<[T, number]>): void {
+        for (const [item, count] of iterable) {
+            this.increment(item, count);
+        }
+    }
+
+    add(iterable: Iterable<T>): void {
+        for (const item of iterable) {
+            this.increment(item, 1);
+        }
+    }
+
+    subtract(iterable: Iterable<T>): void {
+        for (const item of iterable) {
+            this.increment(item, -1);
+        }
+    }
+}
 
 export class DefaultMap<K, V> extends Map<K, V> {
     constructor(public factory: (key: K) => V, iterable?: Iterable<[K, V]>) {
