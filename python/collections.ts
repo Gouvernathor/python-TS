@@ -22,7 +22,8 @@ export interface ReadonlyCounter<T, out N extends number|bigint> extends Readonl
      */
     readonly neg: Counter<T, N>;
 }
-export interface Counter<T, N extends number|bigint> extends ReadonlyCounter<T, N> {
+// @ts-expect-error // for some reason ReadonlyMap and Map are not compatible
+export interface Counter<T, N extends number|bigint> extends ReadonlyCounter<T, N>, Map<T, N> {
     // no public constructor
     // static fromKeys(keys: Iterable<T>, value: N = 1): Counter<T, N>;
     // static fromEntries(entries: Iterable<[T, N]>): Counter<T, N>;
