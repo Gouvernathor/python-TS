@@ -48,7 +48,31 @@ export interface Counter<T, N extends number|bigint> extends ReadonlyCounter<T, 
     subtract(iterable: Iterable<T>): void;
 }
 
-export class NumberCounter<T> extends Map<T, number> implements Counter<T, number> {
+abstract class BaseCounter<T, N extends number|bigint> extends Map<T, N> {
+    *elements(): Iterable<T> {
+        for (const [key, count] of this) {
+            for (let i = 0; i < count; i++) {
+                yield key;
+            }
+        }
+    }
+
+    update(iterable: Iterable<[T, N]>): void {
+        for (const [item, count] of iterable) {
+            this.set(item, count);
+        }
+    }
+
+    abstract increment(key: T, value?: N): void;
+
+    updateBy(iterable: Iterable<[T, N]>): void {
+        for (const [item, count] of iterable) {
+            this.increment(item, count);
+        }
+    }
+}
+
+export class NumberCounter<T> extends BaseCounter<T, number> implements Counter<T, number> {
     // only to render the constructor private
     private constructor(iterable: Iterable<[T, number]> = []) {
         super(iterable);
@@ -64,14 +88,6 @@ export class NumberCounter<T> extends Map<T, number> implements Counter<T, numbe
 
     override get(key: T): number {
         return super.get(key) || 0;
-    }
-
-    *elements(): Iterable<T> {
-        for (const [key, count] of this) {
-            for (let i = 0; i < count; i++) {
-                yield key;
-            }
-        }
     }
 
     get total(): number {
@@ -98,20 +114,8 @@ export class NumberCounter<T> extends Map<T, number> implements Counter<T, numbe
         return copy;
     }
 
-    update(iterable: Iterable<[T, number]>): void {
-        for (const [item, count] of iterable) {
-            this.set(item, count);
-        }
-    }
-
     increment(key: T, value = 1): void {
         this.set(key, this.get(key) + value);
-    }
-
-    updateBy(iterable: Iterable<[T, number]>): void {
-        for (const [item, count] of iterable) {
-            this.increment(item, count);
-        }
     }
 
     add(iterable: Iterable<T>): void {
