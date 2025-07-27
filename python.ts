@@ -1,4 +1,7 @@
-export function sum(array: Iterable<number>, start = 0): number {
+export function sum(array: Iterable<number>, start?: number): number;
+export function sum(array: Iterable<bigint>, start: bigint): bigint;
+export function sum(array: Iterable<string>, start: string): string;
+export function sum(array: Iterable<any>, start: any = 0): any {
     return (array instanceof Array ? array : [...array])
         .reduce((a, b) => a + b, start);
 }
