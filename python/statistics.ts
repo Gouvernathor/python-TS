@@ -4,7 +4,8 @@ export function fmean(values: readonly number[], weights?: readonly number[]): n
     if (weights === undefined) {
         return sum(values) / values.length;
     }
-    return sum(values.map((v, i) => v * weights[i])) / sum(weights);
+    // returns NaN if a weight is missing, not great
+    return sum(values.map((v, i) => v * weights[i]!)) / sum(weights);
 }
 
 export function median(values: readonly number[]): number {
