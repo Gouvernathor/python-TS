@@ -79,8 +79,13 @@ export class NumberCounter<T> extends BaseCounter<T, number> implements Counter<
         super(iterable);
     }
 
+    // supports passing the same key multiple times
     static fromKeys<T>(keys: Iterable<T>, value = 1): NumberCounter<T> {
-        return new NumberCounter<T>(Array.from(keys, key => [key, value] as [T, number]));
+        const rv = new NumberCounter<T>();
+        for (const key of keys) {
+            rv.increment(key, value);
+        }
+        return rv;
     }
 
     static fromEntries<T>(entries: Iterable<[T, number]>): NumberCounter<T> {
@@ -138,8 +143,13 @@ export class BigIntCounter<T> extends BaseCounter<T, bigint> implements Counter<
         super(iterable);
     }
 
+    // supports passing the same key multiple times
     static fromKeys<T>(keys: Iterable<T>, value = 1n): BigIntCounter<T> {
-        return new BigIntCounter<T>(Array.from(keys, key => [key, value] as [T, bigint]));
+        const rv = new BigIntCounter<T>();
+        for (const key of keys) {
+            rv.increment(key, value);
+        }
+        return rv;
     }
 
     static fromEntries<T>(entries: Iterable<[T, bigint]>): BigIntCounter<T> {
