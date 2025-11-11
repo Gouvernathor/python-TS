@@ -74,12 +74,12 @@ abstract class BaseCounter<T, N extends number|bigint> extends Map<T, N> {
 }
 
 export class NumberCounter<T> extends BaseCounter<T, number> implements Counter<T, number> {
-    // only to render the constructor private
+    // render the with-parameters constructor private
     private constructor(iterable: Iterable<[T, number]> = []) {
         super(iterable);
     }
 
-    // supports passing the same key multiple times
+    /** Supports passing the same key multiple times */
     static fromKeys<T>(keys: Iterable<T>, value = 1): NumberCounter<T> {
         const rv = new NumberCounter<T>();
         for (const key of keys) {
@@ -88,7 +88,8 @@ export class NumberCounter<T> extends BaseCounter<T, number> implements Counter<
         return rv;
     }
 
-    static fromEntries<T>(entries: Iterable<[T, number]>): NumberCounter<T> {
+    /** Does not support passing the same key multiple times */
+    static fromEntries<T>(entries?: Iterable<[T, number]>): NumberCounter<T> {
         return new NumberCounter<T>(entries);
     }
 
@@ -138,12 +139,12 @@ export class NumberCounter<T> extends BaseCounter<T, number> implements Counter<
 }
 
 export class BigIntCounter<T> extends BaseCounter<T, bigint> implements Counter<T, bigint> {
-    // only to render the constructor private
+    // render the with-parameters constructor private
     private constructor(iterable: Iterable<[T, bigint]> = []) {
         super(iterable);
     }
 
-    // supports passing the same key multiple times
+    /** Supports passing the same key multiple times */
     static fromKeys<T>(keys: Iterable<T>, value = 1n): BigIntCounter<T> {
         const rv = new BigIntCounter<T>();
         for (const key of keys) {
@@ -152,7 +153,8 @@ export class BigIntCounter<T> extends BaseCounter<T, bigint> implements Counter<
         return rv;
     }
 
-    static fromEntries<T>(entries: Iterable<[T, bigint]>): BigIntCounter<T> {
+    /** Does not support passing the same key multiple times */
+    static fromEntries<T>(entries?: Iterable<[T, bigint]>): BigIntCounter<T> {
         return new BigIntCounter<T>(entries);
     }
 
