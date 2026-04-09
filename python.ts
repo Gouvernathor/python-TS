@@ -18,7 +18,7 @@ export function range(start: number, end?: number): readonly number[] {
         end = start;
         start = 0;
     }
-    return Array.from({length: end - start}, (_, i) => i + start);
+    return Array.from({ length: end - start }, (_, i) => i + start);
 }
 
 export function bigintRange(end: number|bigint): Iterable<bigint>;
