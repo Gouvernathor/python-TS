@@ -30,7 +30,7 @@ export interface Counter<T, N extends number|bigint> extends ReadonlyCounter<T, 
     /**
      * Sets the count of each key to the corresponding value.
      */
-    update(iterable: Iterable<[T, N]>): void;
+    update(iterable: Iterable<readonly [T, N]>): void;
     /**
      * Increments the count of the given key by value (default 1).
      */
@@ -38,7 +38,7 @@ export interface Counter<T, N extends number|bigint> extends ReadonlyCounter<T, 
     /**
      * Updates the counts by incrementing each key by the corresponding value.
      */
-    updateBy(iterable: Iterable<[T, N]>): void;
+    updateBy(iterable: Iterable<readonly [T, N]>): void;
     /**
      * Increments the count of each passed key by 1.
      */
@@ -58,7 +58,7 @@ abstract class BaseCounter<T, N extends number|bigint> extends Map<T, N> {
         }
     }
 
-    update(iterable: Iterable<[T, N]>): void {
+    update(iterable: Iterable<readonly [T, N]>): void {
         for (const [item, count] of iterable) {
             this.set(item, count);
         }
@@ -66,7 +66,7 @@ abstract class BaseCounter<T, N extends number|bigint> extends Map<T, N> {
 
     abstract increment(key: T, value?: N): void;
 
-    updateBy(iterable: Iterable<[T, N]>): void {
+    updateBy(iterable: Iterable<readonly [T, N]>): void {
         for (const [item, count] of iterable) {
             this.increment(item, count);
         }
@@ -75,7 +75,7 @@ abstract class BaseCounter<T, N extends number|bigint> extends Map<T, N> {
 
 export class NumberCounter<T> extends BaseCounter<T, number> implements Counter<T, number> {
     // render the with-parameters constructor private
-    private constructor(iterable: Iterable<[T, number]> = []) {
+    private constructor(iterable: Iterable<readonly [T, number]> = []) {
         super(iterable);
     }
 
@@ -89,7 +89,7 @@ export class NumberCounter<T> extends BaseCounter<T, number> implements Counter<
     }
 
     /** Does not support passing the same key multiple times */
-    static fromEntries<T>(entries?: Iterable<[T, number]>): NumberCounter<T> {
+    static fromEntries<T>(entries?: Iterable<readonly [T, number]>): NumberCounter<T> {
         return new NumberCounter<T>(entries);
     }
 
@@ -140,7 +140,7 @@ export class NumberCounter<T> extends BaseCounter<T, number> implements Counter<
 
 export class BigIntCounter<T> extends BaseCounter<T, bigint> implements Counter<T, bigint> {
     // render the with-parameters constructor private
-    private constructor(iterable: Iterable<[T, bigint]> = []) {
+    private constructor(iterable: Iterable<readonly [T, bigint]> = []) {
         super(iterable);
     }
 
@@ -154,7 +154,7 @@ export class BigIntCounter<T> extends BaseCounter<T, bigint> implements Counter<
     }
 
     /** Does not support passing the same key multiple times */
-    static fromEntries<T>(entries?: Iterable<[T, bigint]>): BigIntCounter<T> {
+    static fromEntries<T>(entries?: Iterable<readonly [T, bigint]>): BigIntCounter<T> {
         return new BigIntCounter<T>(entries);
     }
 
@@ -204,7 +204,7 @@ export class BigIntCounter<T> extends BaseCounter<T, bigint> implements Counter<
 }
 
 export class DefaultMap<K, V> extends Map<K, V> {
-    constructor(public factory: (key: K) => V, iterable?: Iterable<[K, V]>) {
+    constructor(public factory: (key: K) => V, iterable?: Iterable<readonly [K, V]>) {
         super(iterable);
     }
 
