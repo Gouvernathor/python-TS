@@ -11,9 +11,9 @@ export function divmod(a: number, b: number): [number, number] {
 }
 
 // Implementing a class subclassing ReadonlyArray<number> would require a costly Proxy
-export function range(end: number): ReadonlyArray<number>;
-export function range(start: number, end: number): ReadonlyArray<number>;
-export function range(start: number, end?: number): ReadonlyArray<number> {
+export function range(end: number): readonly number[];
+export function range(start: number, end: number): readonly number[];
+export function range(start: number, end?: number): readonly number[] {
     if (end === undefined) {
         end = start;
         start = 0;
