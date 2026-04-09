@@ -21,6 +21,19 @@ export function range(start: number, end?: number): readonly number[] {
     return Array.from({length: end - start}, (_, i) => i + start);
 }
 
+export function bigintRange(end: bigint): Iterable<bigint>;
+export function bigintRange(start: bigint, end: bigint): Iterable<bigint>;
+export function* bigintRange(start: bigint, end?: bigint): Iterable<bigint> {
+    if (end === undefined) {
+        end = start;
+        start = 0n;
+    }
+    let i = start;
+    while (i < end) {
+        yield i++;
+    }
+}
+
 export function* enumerate<T>(array: Iterable<T>, start = 0): Iterable<[number, T]> {
     for (const item of array) {
         yield [start++, item];
